@@ -3,8 +3,7 @@
 #include <iostream>
 #include <iomanip>
 
-
-CLI::CLI(std::unique_ptr<ToDoModel>&& model) : todos{std::move(model)}, helpMessage{"n for new to-do\nl for list all to-dos\ne for exit\nh for help"}
+CLI::CLI(std::unique_ptr<ToDoModel> &&model) : todos{std::move(model)}, helpMessage{"n for new to-do\nl for list all to-dos\ne for exit\nh for help\nm for marking as done"}
 {
 }
 
@@ -22,7 +21,7 @@ void CLI::listToDos() const noexcept
 {
     for (const ToDo &todo : todos->getTodoList())
     {
-        std::cout << todo.getName() << std::endl;
+        std::cout << todo.getName() << "  " << std::boolalpha << todo.isDone() << std::endl;
     }
 }
 
@@ -33,7 +32,7 @@ void CLI::displayHelp() const noexcept
 
 /**
  * read-evaluate-print-loop
-*/
+ */
 void CLI::repl() noexcept
 {
     std::string input;
@@ -51,9 +50,38 @@ void CLI::repl() noexcept
         {
             listToDos();
         }
+        if (input == "m")
+        {
+            markToDoAsDone();
+        }
         if (input == "e")
         {
             std::exit(EXIT_SUCCESS);
         }
     }
+}
+
+void CLI::markToDoAsDone() const noexcept
+{
+    std::cout << "enter name of todo:" << std::endl;
+    std::string name;
+    std::getline(std::cin, name);
+    std::getline(std::cin, name);
+    if (ToDo *const pToDo = todos->getByName(name); pToDo != nullptr)
+    {
+        if (pToDo->isDone())
+        {
+            std::cout << "todo " << std::quoted(name) << " is already marked as done!";
+        }
+        else
+        {
+            pToDo->setDone();
+            std::cout << "todo " << std::quoted(name) << " is now marked as done!";
+        }
+    }
+    else
+    {
+        std::cout << "no todo with name " << std::quoted(name) << " found!";
+    }
+    std::cout << std::endl;
 }

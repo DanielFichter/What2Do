@@ -16,4 +16,5 @@ private:
     void addToDo() noexcept;
     void listToDos() const noexcept;
     void displayHelp() const noexcept;
+    void markToDoAsDone() const noexcept;
 };
