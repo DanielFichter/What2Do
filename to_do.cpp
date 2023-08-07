@@ -1,18 +1,33 @@
 #include <string>
 #include "to_do.h"
 
-ToDo::ToDo(std::string name) : name{name}, done{false} {}
+long long unsigned ToDo::currentId{1};
 
-std::string ToDo::getName() const {
+std::vector<std::string> ToDo::statusNames {"todo", "done"};
+
+ToDo::ToDo(const std::string &name) : name{name}, status{Status::todo}, id{currentId} { ++currentId; }
+
+std::string ToDo::getName() const
+{
     return name;
 }
 
-bool ToDo::isDone() const {
-    return done;
+ToDo::Status ToDo::getStatus() const
+{
+    return status;
 }
 
-bool ToDo::setDone() {
-    bool hasChanged {!done};
-    done = true;
-    return hasChanged;
+bool ToDo::setStatus(Status newStatus = Status::done)
+{
+    if (status != newStatus)
+    {
+        status = newStatus;
+        return true;
+    }
+    return false;
+}
+
+long long unsigned ToDo::getId() const
+{
+    return id;
 }

@@ -2,8 +2,7 @@
 #include <optional>
 #include "to_do_model.h"
 
-
-class TempToDoModel: public ToDoModel 
+class TempToDoModel : public ToDoModel
 {
 
     ToDoContainer todos;
@@ -12,7 +11,6 @@ class TempToDoModel: public ToDoModel
 
 public:
     virtual ToDoContainer getTodoList() const noexcept override;
-    virtual ToDo* const getByName(const std::string&) noexcept override;
-    virtual void pushBack(const ToDo&) noexcept override;
+    virtual ToDo *const getByName(const std::string &) noexcept override;
+    virtual void pushBack(const ToDo &) noexcept override;
 };
-

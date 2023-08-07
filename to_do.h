@@ -1,15 +1,30 @@
 #pragma once
-#include<string>
+#include <string>
+#include <vector>
 
-class ToDo {
-
-    std::string name;
-    bool done;
+class ToDo
+{
 
 public:
-    ToDo(std::string);
-    std::string getName() const;
-    bool isDone() const;
+    enum class Status
+    {
+        todo,
+        done
+    };
+    static std::vector<std::string> statusNames;
 
-    bool setDone();
+private:
+    std::string name;
+    Status status;
+    long long unsigned id;
+    static long long unsigned currentId;
+
+public:
+    ToDo(const std::string&);
+
+    std::string getName() const;
+    Status getStatus() const;
+    long long unsigned getId() const;
+
+    bool setStatus(Status);
 };

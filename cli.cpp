@@ -21,7 +21,7 @@ void CLI::listToDos() const noexcept
 {
     for (const ToDo &todo : todos->getTodoList())
     {
-        std::cout << todo.getName() << "  " << std::boolalpha << todo.isDone() << std::endl;
+        std::cout << todo.getId() << " " << todo.getName() << "  " << ToDo::statusNames.at(static_cast<size_t>(todo.getStatus())) << std::endl;
     }
 }
 
@@ -42,19 +42,19 @@ void CLI::repl() noexcept
         {
             displayHelp();
         }
-        if (input == "n")
+        else if (input == "n")
         {
             addToDo();
         }
-        if (input == "l")
+        else if (input == "l")
         {
             listToDos();
         }
-        if (input == "m")
+        else if (input == "m")
         {
             markToDoAsDone();
         }
-        if (input == "e")
+        else if (input == "e")
         {
             std::exit(EXIT_SUCCESS);
         }
@@ -69,13 +69,13 @@ void CLI::markToDoAsDone() const noexcept
     std::getline(std::cin, name);
     if (ToDo *const pToDo = todos->getByName(name); pToDo != nullptr)
     {
-        if (pToDo->isDone())
+        if (pToDo->getStatus() == ToDo::Status::done)
         {
             std::cout << "todo " << std::quoted(name) << " is already marked as done!";
         }
         else
         {
-            pToDo->setDone();
+            pToDo->setStatus(ToDo::Status::done);
             std::cout << "todo " << std::quoted(name) << " is now marked as done!";
         }
     }
