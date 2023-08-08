@@ -3,9 +3,9 @@
 
 long long unsigned ToDo::currentId{1};
 
-std::vector<std::string> ToDo::statusNames {"todo", "done"};
+std::vector<std::string> ToDo::statusNames{"todo", "done"};
 
-ToDo::ToDo(const std::string &name) : name{name}, status{Status::todo}, id{currentId} { ++currentId; }
+ToDo::ToDo(const std::string &name, const TimePoint &timePoint) : name{name}, timePoint{timePoint}, status{Status::todo}, id{currentId} { ++currentId; }
 
 std::string ToDo::getName() const
 {
@@ -30,4 +30,19 @@ bool ToDo::setStatus(Status newStatus = Status::done)
 long long unsigned ToDo::getId() const
 {
     return id;
+}
+
+ToDo::TimePoint ToDo::getTimePoint() const
+{
+    return timePoint;
+}
+
+bool ToDo::setTimePoint(const TimePoint &newTimePoint)
+{
+    if (timePoint != newTimePoint)
+    {
+        timePoint = newTimePoint;
+        return true;
+    }
+    return false;
 }

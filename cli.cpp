@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <iomanip>
+#include <chrono>
 
 CLI::CLI(std::unique_ptr<ToDoModel> &&model) : todos{std::move(model)}, helpMessage{"n for new to-do\nl for list all to-dos\ne for exit\nh for help\nm for marking as done"}
 {
@@ -13,7 +14,16 @@ void CLI::addToDo() noexcept
     std::string name;
     std::getline(std::cin, name);
     std::getline(std::cin, name);
-    todos->pushBack(ToDo(name));
+    std::cout << "enter timepoint of the todo: " << std::endl;
+    std::tm time;
+    std::cin >> std::get_time(&time, "%Y-%m-%d");
+
+    std::chrono::days duration{std::chrono::days(time.tm_yday + 1)};
+    std::cout << "month:" << time.tm_mon << std::endl;
+    std::cout << "year: " << time.tm_year << std::endl;
+    duration += std::chrono::duration_cast<std::chrono::days>(std::chrono::years(time.tm_year - 70));
+    ToDo::TimePoint timePoint{duration};
+    todos->pushBack(ToDo(name, timePoint));
     std::cout << "to-do with name " << std::quoted(name) << " was added " << std::endl;
 }
 
@@ -21,7 +31,9 @@ void CLI::listToDos() const noexcept
 {
     for (const ToDo &todo : todos->getTodoList())
     {
-        std::cout << todo.getId() << " " << todo.getName() << "  " << ToDo::statusNames.at(static_cast<size_t>(todo.getStatus())) << std::endl;
+        const std::time_t time = std::chrono::system_clock::to_time_t(todo.getTimePoint());
+        std::cout << todo.getId() << " " << todo.getName() << " " << std::put_time(std::localtime(&time), "%d.%m.%Y") << " "
+                  << ToDo::statusNames.at(static_cast<size_t>(todo.getStatus())) << std::endl;
     }
 }
 
