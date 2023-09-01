@@ -19,8 +19,6 @@ void CLI::addToDo() noexcept
     std::cin >> std::get_time(&time, "%Y-%m-%d");
 
     std::chrono::days duration{std::chrono::days(time.tm_yday + 1)};
-    std::cout << "month:" << time.tm_mon << std::endl;
-    std::cout << "year: " << time.tm_year << std::endl;
     duration += std::chrono::duration_cast<std::chrono::days>(std::chrono::years(time.tm_year - 70));
     ToDo::TimePoint timePoint{duration};
     todos->pushBack(ToDo(name, timePoint));
