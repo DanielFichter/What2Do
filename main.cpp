@@ -1,17 +1,9 @@
-#include <iostream>
-#include <list>
-#include "to_do.h"
-#include <string>
-#include <iomanip>
-#include "cli.h"
-#include "temp_to_do_model.h"
+#include <QApplication>
+#include <QPushButton>
 
-int main()
+int main(int argc, char** argv)
 {
-    std::cout << "welcome to the to-do-list, enter h to see help\n";
-    std::unique_ptr<ToDoModel> toDoModel{std::make_unique<TempToDoModel>()};
-    CLI cli{std::move(toDoModel)};
-    cli.repl();
+    QApplication app(argc, argv);
 
-    return 0;
+    return app.exec();
 }
