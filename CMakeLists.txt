@@ -10,6 +10,6 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 qt_standard_project_setup()
 
-qt_add_executable(what2do main.cpp to_do.cpp temp_to_do_model.cpp)
+qt_add_executable(what2do main.cpp to_do.cpp mainwindow.cpp temp_to_do_model.cpp)
 
 target_link_libraries(what2do PRIVATE Qt6::Widgets)
